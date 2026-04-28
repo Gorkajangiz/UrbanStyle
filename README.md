@@ -37,49 +37,49 @@ Sus puntos fuertes son la arquitectura solida (dos proyectos, manager y tienda, 
 
 <h2>🖥️ Capturas de la aplicación</h2>
 
-<h3>🔧 Nombre de pantalla 1</h3>
+<h3>Landing page</h3>
 <img src="resReadme/us.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 2</h3>
+<h3>Colecciones</h3>
 <img src="resReadme/us1.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 3</h3>
+<h3>Recien llegados</h3>
 <img src="resReadme/us2.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 4</h3>
+<h3>Categorías</h3>
 <img src="resReadme/us3.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 5</h3>
+<h3>Colección concreta</h3>
 <img src="resReadme/us4.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 6</h3>
+<h3>Categoría concreta</h3>
 <img src="resReadme/us5.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 1</h3>
+<h3>Página de compra</h3>
 <img src="resReadme/us6.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 2</h3>
+<h3>Productos similares</h3>
 <img src="resReadme/us7.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 3</h3>
+<h3>Login</h3>
 <img src="resReadme/us8.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 4</h3>
+<h3>Carrito</h3>
 <img src="resReadme/us9.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 5</h3>
+<h3>Login de administrador</h3>
 <img src="resReadme/us10.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 6</h3>
+<h3>Panel de clientes de administrador</h3>
 <img src="resReadme/us11.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 4</h3>
+<h3>Panel de productos de administrador</h3>
 <img src="resReadme/us12.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 5</h3>
+<h3>Edición de productos</h3>
 <img src="resReadme/us13.png" width="400"/>
 
-<h3>🔧 Nombre de pantalla 6</h3>
+<h3>Edición de prendas</h3>
 <img src="resReadme/us14.png" width="400"/>
 
 ---
