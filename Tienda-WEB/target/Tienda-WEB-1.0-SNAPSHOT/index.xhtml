@@ -1,0 +1,180 @@
+<ui:composition 
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantilla/plantilla.xhtml">
+
+    <ui:define name="head">
+        <h:outputStylesheet name="css/estilos.css"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <section class="youth-hero-section">
+                <video class="youth-hero-video"
+                       autoplay="autoplay"
+                       muted="muted"
+                       loop="loop"
+                       playsinline="playsinline">
+                    <source src="#{resource['videos:hero-fashion.mp4']}" type="video/mp4" />
+                </video>
+                <div class="youth-hero-overlay">
+                    <h1 class="youth-title">#{msg.urban_style_title}</h1>
+                    <p class="youth-subtitle">#{msg.urban_style_subtitle}</p>
+                    <p class="youth-tagline">#{msg.urban_style_tagline}</p>
+                    <p:commandButton value="#{msg.explore_collection_button}"
+                                     styleClass="youth-hero-button"
+                                     process="@this"
+                                     action="#{tiendaBean.goLists('Urban')}"/>
+                </div>
+            </section>
+
+            <section class="youth-collections-section">
+                <h2 class="youth-section-title">#{msg.featured_collections_title}</h2>
+                <p class="youth-section-subtitle">#{msg.featured_collections_subtitle}</p>
+
+                <div class="youth-collections-grid">
+                    <div class="youth-collection-card">
+                        <div class="youth-collection-image">
+                            <img src="#{resource['images:collection-urban.jpg']}" alt="#{msg.urban_collection_alt}"/>
+                        </div>
+                        <div class="youth-collection-content">
+                            <h3>#{msg.urban_nights_title}</h3>
+                            <p>#{msg.urban_nights_description}</p>
+                            <p:commandButton value="#{msg.view_collection_button}" 
+                                             styleClass="youth-collection-btn"
+                                             action="#{tiendaBean.goLists('Urban')}"/>
+                        </div>
+                    </div>
+
+                    <div class="youth-collection-card">
+                        <div class="youth-collection-image">
+                            <img src="#{resource['images:collection-street.jpg']}" alt="#{msg.street_collection_alt}"/>
+                        </div>
+                        <div class="youth-collection-content">
+                            <h3>#{msg.street_rebel_title}</h3>
+                            <p>#{msg.street_rebel_description}</p>
+                            <p:commandButton value="#{msg.view_collection_button}" 
+                                             styleClass="youth-collection-btn"
+                                             action="#{tiendaBean.goLists('Street')}"/>
+                        </div>
+                    </div>
+
+                    <div class="youth-collection-card">
+                        <div class="youth-collection-image">
+                            <img src="#{resource['images:collection-minimal.jpg']}" alt="#{msg.minimal_collection_alt}"/>
+                        </div>
+                        <div class="youth-collection-content">
+                            <h3>#{msg.minimal_vibes_title}</h3>
+                            <p>#{msg.minimal_vibes_description}</p>
+                            <p:commandButton value="#{msg.view_collection_button}" 
+                                             styleClass="youth-collection-btn"
+                                             action="#{tiendaBean.goLists('Minimal')}"/>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="youth-products-section">
+                <h2 class="youth-section-title">#{msg.new_arrivals_title}</h2>
+                <p class="youth-section-subtitle">#{msg.new_arrivals_subtitle}</p>
+
+                <div class="youth-products-grid">
+                    <ui:repeat value="#{tiendaBean.productosLimitados}" var="product">
+                        <div class="youth-product-card">
+                            <div class="youth-product-badge #{tiendaBean.availability(product) eq msg.available ? 'youth-available' 
+                                                              : tiendaBean.availability(product) eq msg.last_units ? 'youth-last-units' 
+                                                              : 'youth-unavailable'}">
+                                 #{tiendaBean.availability(product)}
+                            </div>
+
+                            <div class="youth-product-image">
+                                <p:graphicImage library="images" name="#{tiendaBean.getFoto(product.url)}" styleClass="youth-responsive-img"/>
+                            </div>
+
+                            <div class="youth-product-info">
+                                <h3 class="youth-product-name">#{product.name}</h3>
+                                <p class="youth-product-desc">#{product.description}</p>
+                                <div class="youth-product-extra">
+                                    <span class="youth-product-category">#{product.category}</span>
+                                </div>
+                                <div class="youth-product-meta">
+                                    <p:rating value="#{product.rating}" readonly="true" styleClass="youth-product-rating" />
+                                    <span class="youth-product-price">
+                                        <h:outputText value="#{product.price}">
+                                            <f:convertNumber type="currency" currencySymbol="€"/>
+                                        </h:outputText>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <p:commandLink class="youth-product-click"
+                                           action="#{tiendaBean.openProductDlg(product)}"
+                                           process="@this"/>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </section>
+
+            <section class="youth-categories-section">
+                <h2 class="youth-section-title">#{msg.explore_by_category_title}</h2>
+                <p class="youth-section-subtitle">#{msg.explore_by_category_subtitle}</p>
+
+                <div class="youth-collections-grid">
+                    <div class="youth-collection-card">
+                        <div class="youth-collection-image">
+                            <img src="#{resource['images:gorrasCol.jpg']}" alt="#{msg.caps_collection_alt}"/>
+                        </div>
+                        <div class="youth-collection-content">
+                            <h3>#{msg.caps_title}</h3>
+                            <p>#{msg.caps_description}</p>
+                            <p:commandButton value="#{msg.view_caps_button}" 
+                                             styleClass="youth-collection-btn"
+                                             action="#{tiendaBean.goLists('Gorras')}"/>
+                        </div>
+                    </div>
+
+                    <div class="youth-collection-card">
+                        <div class="youth-collection-image">
+                            <img src="#{resource['images:camisetasCol.jpg']}" alt="#{msg.t_shirts_collection_alt}"/>
+                        </div>
+                        <div class="youth-collection-content">
+                            <h3>#{msg.t_shirts_title}</h3>
+                            <p>#{msg.t_shirts_description}</p>
+                            <p:commandButton value="#{msg.view_t_shirts_button}" 
+                                             styleClass="youth-collection-btn"
+                                             action="#{tiendaBean.goLists('Camisetas')}"/>
+                        </div>
+                    </div>
+
+                    <div class="youth-collection-card">
+                        <div class="youth-collection-image">
+                            <img src="#{resource['images:pantalonesCol.jpg']}" alt="#{msg.pants_collection_alt}"/>
+                        </div>
+                        <div class="youth-collection-content">
+                            <h3>#{msg.pants_title}</h3>
+                            <p>#{msg.pants_description}</p>
+                            <p:commandButton value="#{msg.view_pants_button}" 
+                                             styleClass="youth-collection-btn"
+                                             action="#{tiendaBean.goLists('Pantalones')}"/>
+                        </div>
+                    </div>
+
+                    <div class="youth-collection-card">
+                        <div class="youth-collection-image">
+                            <img src="#{resource['images:sudaderasCol.jpg']}" alt="#{msg.hoodies_collection_alt}"/>
+                        </div>
+                        <div class="youth-collection-content">
+                            <h3>#{msg.hoodies_title}</h3>
+                            <p>#{msg.hoodies_description}</p>
+                            <p:commandButton value="#{msg.view_hoodies_button}" 
+                                             styleClass="youth-collection-btn"
+                                             action="#{tiendaBean.goLists('Sudaderas')}"/>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </h:form>
+    </ui:define>
+</ui:composition>

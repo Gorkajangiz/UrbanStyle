@@ -1,0 +1,25 @@
+<ui:composition 
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="headerForm">
+        <header class="youth-header">
+            <div class="header-container">
+
+                <div class="header-logo">
+                    <p:commandButton 
+                        icon="pi pi-box"
+                        styleClass="logo-btn"
+                        action="#{clientManagerBean.goHome()}"
+                        immediate="true"
+                        ajax="false"
+                        title="#{msg.home_title}"/>
+                    <span class="logo-text">#{msg.urban_style_title}</span>
+                </div>
+            </div>
+        </header>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,78 @@
+<ui:composition 
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantilla/plantilla.xhtml">
+
+    <ui:define name="head">
+        <h:outputStylesheet name="css/register.css"/>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <div class="register-wrapper">
+
+            <h:form id="form">
+
+                <p:card styleClass="register-panel">
+
+                    <h2>#{msg.register_title}</h2>
+
+                    <p:panelGrid layout="grid" columns="1">
+
+                        <h:outputLabel for="email" value="#{msg.email_label}" styleClass="label-100"/>
+                        <p:inputText id="email"
+                                     value="#{tiendaBean.client.email}"
+                                     styleClass="input-100"
+                                     placeholder="#{msg.email_placeholder}"/>
+
+                        <h:outputLabel for="username" value="#{msg.name_label}" styleClass="label-100"/>
+                        <p:inputText id="username"
+                                     value="#{tiendaBean.client.name}"
+                                     styleClass="input-100"
+                                     placeholder="#{msg.name_placeholder}"/>
+
+                        <h:outputLabel for="password" value="#{msg.password_label}" styleClass="label-100"/>
+                        <p:password id="password"
+                                    value="#{tiendaBean.client.password}"
+                                    styleClass="input-100"
+                                    placeholder="#{msg.password_placeholder}"
+                                    feedback="false"/>
+
+                        <h:outputLabel for="confirm-password"
+                                       value="#{msg.confirm_password_label}"
+                                       styleClass="label-100"/>
+                        <p:password id="confirm-password"
+                                    value="#{tiendaBean.cpassword}"
+                                    styleClass="input-100"
+                                    placeholder="#{msg.confirm_password_placeholder}"
+                                    feedback="false"/>
+
+                    </p:panelGrid>
+
+                    <p:panelGrid layout="grid"
+                                 columns="2"
+                                 styleClass="register-buttons">
+
+                        <p:commandButton id="register"
+                                         value="#{msg.register_button}"
+                                         action="#{tiendaBean.register()}"
+                                         class="button-100"
+                                         update="form"/>
+
+                        <p:commandButton value="#{msg.login_button}"
+                                         action="#{tiendaBean.goLogin()}"
+                                         class="button-100"
+                                         immediate="true"/>
+
+                    </p:panelGrid>
+
+                    <h:outputText value="#{tiendaBean.mensajeError}"
+                                  style="color:#b00020; display:block; text-align:center; margin-top:1rem;"/>
+
+                </p:card>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,3 @@
+beans\TiendaBean.class
+beans\rest\ApplicationConfig.class
+beans\rest\AutorizacionEndpoint.class

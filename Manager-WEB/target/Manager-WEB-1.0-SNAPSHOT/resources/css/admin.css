@@ -1,0 +1,172 @@
+.admin-container {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    padding: 2rem !important;
+    border-radius: 12px;
+}
+
+.admin-title {
+    color: #000000 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.admin-container .p-datatable,
+.admin-container .p-datatable .p-datatable-header,
+.admin-container .p-datatable .p-datatable-footer,
+.admin-container .p-datatable .p-datatable-thead > tr > th,
+.admin-container .p-datatable .p-datatable-tbody > tr > td {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    padding: 0.8rem 1rem !important;
+}
+
+.admin-container .p-datatable.p-datatable-gridlines .p-datatable-tbody > tr > td,
+.admin-container .p-datatable.p-datatable-gridlines .p-datatable-thead > tr > th {
+    border-color: #ddd !important;
+}
+
+.admin-container .p-button,
+.admin-container .p-button .pi,
+.admin-container .p-button span {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.admin-container .p-button:hover {
+    background-color: #222222 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.admin-container .p-button.p-button-text {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.admin-container .p-dialog .p-field,
+.admin-container .p-dialog .p-fluid {
+    padding: 0.5rem 0 !important;
+}
+
+.admin-container .dialog-footer-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    padding-top: 1rem;
+}
+
+.admin-container .p-dialog {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+.admin-container input,
+.admin-container textarea,
+.admin-container select {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #ccc !important;
+    padding: 0.4rem 0.6rem !important;
+    border-radius: 6px !important;
+}
+
+.admin-container .p-fileupload {
+    color: #000000 !important;
+}
+
+.admin-container .p-growl {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #ddd !important;
+}
+
+.admin-container .p-paginator .p-paginator-page,
+.admin-container .p-paginator .p-paginator-prev,
+.admin-container .p-paginator .p-paginator-next {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.admin-container .p-paginator .p-paginator-page:hover {
+    background-color: #222222 !important;
+}
+
+.admin-container .p-tabview .p-tabview-nav li a {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.admin-container .p-tabview .p-tabview-nav li a:hover {
+    background-color: #222222 !important;
+}
+.p-dialog {
+    padding: 1.5rem;
+    max-width: 600px !important;
+}
+
+.dialog-footer-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 1.5rem;
+}
+
+.p-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.p-field > label,
+.p-field > .p-outputlabel {
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+}
+
+.p-field input,
+.p-field .p-inputtext,
+.p-field .p-spinner input,
+.p-field .p-inputnumber input,
+.p-field .p-selectone,
+.p-field textarea,
+.p-field .p-dropdown,
+.p-field .p-fileupload {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.p-field .p-fileupload {
+    display: block;
+}
+.admin-container .p-button,
+.admin-container .p-button.p-button-success,
+.admin-container .p-button.p-button-danger,
+.admin-container .p-button.p-button-warning,
+.admin-container .p-button.p-button-secondary,
+.admin-container .p-button.p-button-info {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.admin-container .p-button .pi {
+    color: #ffffff !important;
+}
+
+.admin-container .p-button:hover {
+    background-color: #222222 !important;
+}
+
+.admin-container .p-button.p-button-text {
+    background-color: transparent !important;
+    color: #000000 !important;
+}
+
+.admin-container .p-button.p-button-text:hover {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}

@@ -1,0 +1,567 @@
+<ui:composition
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantilla/plantilla.xhtml">
+    <ui:define name="head">        
+        <h:outputStylesheet name="css/admin.css"/>
+    </ui:define>
+    <ui:define name="content">
+        <ui:fragment rendered="#{!clientManagerBean.logeado or !'ADMIN' eq clientManagerBean.rol}">
+            <script type="text/javascript">
+                window.location.href = "http://localhost:8080/Manager-WEB/login.xhtml";
+            </script>
+        </ui:fragment>
+
+        <div class="admin-container">
+            <h2 class="admin-title">#{msg.admin_panel_title}</h2>
+
+            <h:form id="formAdminMain">
+                <p:growl id="messages" showDetail="true" life="3000" />
+
+                <p:tabView id="adminTabView">
+
+                    <p:tab title="#{msg.clients_tab}">
+                        <p:commandButton value="#{msg.new_client_button}"
+                                         icon="pi pi-plus"
+                                         onclick="PF('insertClientDlg').show()"
+                                         styleClass="p-button-success"/>
+
+                        <p:dataTable id="clientTable"
+                                     value="#{clientManagerBean.clients}"
+                                     var="client"
+                                     paginator="true"
+                                     rows="10"
+                                     styleClass="p-datatable-gridlines"
+                                     widgetVar="clientTableWidget">
+
+                            <p:column headerText="#{msg.id_header}">
+                                #{client.id}
+                            </p:column>
+
+                            <p:column headerText="#{msg.name_header}">
+                                #{client.name}
+                            </p:column>
+
+                            <p:column headerText="#{msg.email_header}">
+                                #{client.email}
+                            </p:column>
+
+                            <p:column headerText="#{msg.discount_header}">
+                                #{client.discount}%
+                            </p:column>
+
+                            <p:column headerText="#{msg.actions_header}" style="width: 150px;">
+                                <p:commandButton icon="pi pi-pencil"
+                                                 title="#{msg.edit_title}"
+                                                 onclick="PF('editClientDlg').show()"
+                                                 action="#{clientManagerBean.prepareEditClient(client)}"
+                                                 update=":editClientForm"
+                                                 styleClass="p-button-warning p-button-text"/>
+
+                                <p:commandButton icon="pi pi-trash"
+                                                 title="#{msg.delete_title}"
+                                                 onclick="PF('deleteClientDlg').show()"
+                                                 action="#{clientManagerBean.prepareDeleteClient(client)}"
+                                                 update=":deleteClientForm"
+                                                 styleClass="p-button-danger p-button-text"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+
+                    <p:tab title="#{msg.products_tab}">
+                        <p:commandButton value="#{msg.new_product_button}"
+                                         icon="pi pi-plus"
+                                         onclick="PF('insertProductDlg').show()"
+                                         styleClass="p-button-success"/>
+
+                        <p:dataTable id="productTable"
+                                     value="#{clientManagerBean.products}"
+                                     var="product"
+                                     paginator="true"
+                                     rows="10"
+                                     styleClass="p-datatable-gridlines"
+                                     widgetVar="productTableWidget">
+                            <p:column headerText="#{msg.image_header}" exportable="false">
+                                <p:graphicImage library="images" name="#{clientManagerBean.getFoto(product.url)}"
+                                                style="width: 30%"/>
+                            </p:column>
+                            <p:column headerText="#{msg.id_header}">
+                                #{product.id}
+                            </p:column>
+
+                            <p:column headerText="#{msg.name_header}">
+                                #{product.name}
+                            </p:column>
+
+                            <p:column headerText="#{msg.price_header}">
+                                #{product.price}€
+                            </p:column>
+
+                            <p:column headerText="#{msg.stock_header}">
+                                #{product.stock}
+                            </p:column>
+
+                            <p:column headerText="#{msg.category_header}">
+                                #{product.category}
+                            </p:column>
+
+                            <p:column headerText="#{msg.rating_header}">
+                                #{clientManagerBean.getDisplayRating(product)} ★
+                            </p:column>
+
+                            <p:column headerText="#{msg.actions_header}" style="width: 150px;">
+                                <p:commandButton icon="pi pi-pencil"
+                                                 title="#{msg.edit_title}"
+                                                 onclick="PF('editProductDlg').show()"
+                                                 action="#{clientManagerBean.prepareEditProduct(product)}"
+                                                 update=":editProductForm"
+                                                 styleClass="p-button-warning p-button-text"/>
+
+                                <p:commandButton icon="pi pi-trash"
+                                                 title="#{msg.delete_title}"
+                                                 onclick="PF('deleteProductDlg').show()"
+                                                 action="#{clientManagerBean.prepareDeleteProduct(product)}"
+                                                 update=":deleteProductForm"
+                                                 styleClass="p-button-danger p-button-text"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+                </p:tabView>
+            </h:form>
+
+
+            <p:dialog header="#{msg.new_client_dialog}"
+                      widgetVar="insertClientDlg"
+                      modal="true"
+                      closable="true"
+                      resizable="false"
+                      styleClass="dialog-lg">
+
+                <h:form id="insertClientForm">
+                    <div class="p-fluid">
+                        <div class="p-field">
+                            <p:outputLabel for="clientName" value="#{msg.name_label}: " />
+                            <p:inputText id="clientName" 
+                                         value="#{clientManagerBean.client.name}"
+                                         required="true"
+                                         requiredMessage="#{msg.name_required}"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="clientEmail" value="#{msg.email_label}: " />
+                            <p:inputText id="clientEmail" 
+                                         value="#{clientManagerBean.client.email}"
+                                         required="true"
+                                         requiredMessage="#{msg.email_required}"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="clientPassword" value="#{msg.password_label}: " />
+                            <p:password id="clientPassword" 
+                                        value="#{clientManagerBean.client.password}"
+                                        required="true"
+                                        requiredMessage="#{msg.password_required}"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="clientDiscount" value="#{msg.discount_label} (%)" />
+                            <p:inputNumber id="clientDiscount"
+                                           value="#{clientManagerBean.client.discount}"
+                                           minValue="0"
+                                           maxValue="100"/>
+                        </div>
+                    </div>
+
+                    <div class="dialog-footer-buttons">
+                        <p:commandButton value="#{msg.save_button}"
+                                         action="#{clientManagerBean.insertar}"
+                                         process="@this insertClientForm"
+                                         update=":formAdminMain:messages :formAdminMain:clientTable"
+                                         oncomplete="if(!args.validationFailed) {PF('insertClientDlg').hide(); PF('clientTableWidget').filter();}"
+                                         styleClass="p-button-success"/>
+
+                        <p:commandButton value="#{msg.cancel_button}"
+                                         onclick="PF('insertClientDlg').hide();"
+                                         immediate="true"
+                                         styleClass="p-button-secondary"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="#{msg.edit_client_dialog}"
+                      widgetVar="editClientDlg"
+                      modal="true"
+                      closable="true"
+                      resizable="false">
+
+                <h:form id="editClientForm">
+                    <div class="p-fluid">
+                        <div class="p-field">
+                            <p:outputLabel for="editClientId" value="#{msg.id_header}" />
+                            <p:inputText id="editClientId" 
+                                         value="#{clientManagerBean.selectedClient.id}"
+                                         disabled="true"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editClientName" value="#{msg.name_label} " />
+                            <p:inputText id="editClientName" 
+                                         value="#{clientManagerBean.selectedClient.name}"
+                                         required="true"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editClientEmail" value="#{msg.email_header}" />
+                            <p:inputText id="editClientEmail" 
+                                         value="#{clientManagerBean.selectedClient.email}"
+                                         disabled="true"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editClientDiscount" value="#{msg.discount_label} (%):" />
+                            <p:inputNumber id="editClientDiscount"
+                                           value="#{clientManagerBean.selectedClient.discount}"
+                                           minValue="0"
+                                           maxValue="100"/>
+                        </div>
+                    </div>
+
+                    <div class="dialog-footer-buttons">
+                        <p:commandButton value="#{msg.update_button}"
+                                         action="#{clientManagerBean.editar}"
+                                         process="@this editClientForm"
+                                         update=":formAdminMain:messages :formAdminMain:clientTable"
+                                         oncomplete="if(!args.validationFailed) {PF('editClientDlg').hide(); PF('clientTableWidget').filter();}"
+                                         styleClass="p-button-success"/>
+
+                        <p:commandButton value="#{msg.cancel_button}"
+                                         onclick="PF('editClientDlg').hide();"
+                                         immediate="true"
+                                         styleClass="p-button-secondary"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="#{msg.delete_client_dialog}"
+                      widgetVar="deleteClientDlg"
+                      modal="true"
+                      closable="true"
+                      resizable="false">
+
+                <h:form id="deleteClientForm">
+                    <p>#{msg.delete_confirmation_client}</p>
+
+                    <div class="p-fluid">
+                        <div class="p-field">
+                            <p:outputLabel for="deleteClientName" value="#{msg.client_label}:" />
+                            <p:inputText id="deleteClientName" 
+                                         value="#{clientManagerBean.selectedClient.name}"
+                                         disabled="true"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="deleteClientEmail" value="#{msg.email_header}:" />
+                            <p:inputText id="deleteClientEmail" 
+                                         value="#{clientManagerBean.selectedClient.email}"
+                                         disabled="true"/>
+                        </div>
+                    </div>
+
+                    <div class="dialog-footer-buttons">
+                        <p:commandButton value="#{msg.delete_button}"
+                                         action="#{clientManagerBean.borrar}"
+                                         process="@this"
+                                         update=":formAdminMain:messages :formAdminMain:clientTable"
+                                         oncomplete="PF('deleteClientDlg').hide(); PF('clientTableWidget').filter();"
+                                         styleClass="p-button-danger"/>
+
+                        <p:commandButton value="#{msg.cancel_button}"
+                                         onclick="PF('deleteClientDlg').hide();"
+                                         immediate="true"
+                                         styleClass="p-button-secondary"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="#{msg.new_product_dialog}"
+                      widgetVar="insertProductDlg"
+                      modal="true"
+                      closable="true"
+                      resizable="false"
+                      styleClass="dialog-lg"
+                      width="500">
+
+                <h:form id="insertProductForm">
+                    <div class="p-fluid">
+                        <div class="p-field">
+                            <p:outputLabel for="productName" value="#{msg.name_label}: " />
+                            <p:inputText id="productName" 
+                                         value="#{clientManagerBean.product.name}"
+                                         required="true"
+                                         requiredMessage="#{msg.name_required}"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="productPrice" value="#{msg.price_label}: " />
+                            <p:inputNumber id="productPrice" 
+                                           value="#{clientManagerBean.product.price}"
+                                           required="true"
+                                           requiredMessage="#{msg.price_required}"
+                                           decimalPlaces="2"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="productStock" value="#{msg.stock_label}: " />
+                            <p:inputNumber id="productStock"
+                                           value="#{clientManagerBean.product.stock}"
+                                           required="true"
+                                           requiredMessage="#{msg.stock_required}"
+                                           minValue="0"
+                                           inputStyle="width:100%" />
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="productCategory" value="#{msg.category_label}:" />
+                            <p:selectOneMenu id="productCategory" 
+                                             value="#{clientManagerBean.product.category}"
+                                             style="width: 100%">
+                                <f:selectItem itemLabel="#{msg.select_category}" itemValue=""/>
+                                <f:selectItems value="#{clientManagerBean.categories}" 
+                                               var="cat"
+                                               itemLabel="#{cat}" 
+                                               itemValue="#{cat}"/>
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="productColor" value="#{msg.color_label}:" />
+                            <p:selectOneMenu id="productColor" 
+                                             value="#{clientManagerBean.product.color}"
+                                             style="width: 100%">
+                                <f:selectItem itemLabel="#{msg.select_color}" itemValue=""/>
+                                <f:selectItems value="#{clientManagerBean.colors}" 
+                                               var="color"
+                                               itemLabel="#{color}" 
+                                               itemValue="#{color}"/>
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="productSize" value="#{msg.size_label} (S,M,L):" />
+                            <p:inputText id="productSize" 
+                                         value="#{clientManagerBean.product.size}"
+                                         required="true"
+                                         requiredMessage="#{msg.size_required}"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="productRating" value="#{msg.rating_label} (0-5, ej: 4.5):" />
+                            <p:inputNumber id="productRating" 
+                                           value="#{clientManagerBean.formRating}"
+                                           decimalPlaces="1"
+                                           minValue="0"
+                                           maxValue="5"
+                                           style="width: 100%"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="productDescription" value="#{msg.description_label}:" />
+                            <p:inputTextarea id="productDescription" 
+                                             value="#{clientManagerBean.product.description}"
+                                             rows="3"
+                                             style="width: 100%"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="productImage" value="#{msg.image_label}" />
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <p:fileUpload id="productImage"
+                                              mode="simple"
+                                              skinSimple="true"
+                                              uploadLabel="#{msg.select_image}"
+                                              listener="#{clientManagerBean.handleFileUpload}"
+                                              style="width: 100%"/>
+
+                                <div id="selectedImageNameDisplay">
+                                    <p:outputLabel rendered="#{not empty clientManagerBean.selectedImageName}"
+                                                   value="#{msg.selected_image}: #{clientManagerBean.selectedImageName}"
+                                                   style="color: green; font-weight: bold;"/>
+                                </div>
+
+                                <p:commandButton value="#{msg.clear_image_button}"
+                                                 rendered="#{not empty clientManagerBean.selectedImageName}"
+                                                 action="#{clientManagerBean.clearSelectedImage}"
+                                                 update="selectedImageNameDisplay"
+                                                 styleClass="p-button-secondary"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dialog-footer-buttons">
+                        <p:commandButton value="#{msg.save_button}"
+                                         action="#{clientManagerBean.insertarProducto}"
+                                         process="@this insertProductForm"
+                                         update=":formAdminMain:messages :formAdminMain:productTable"
+                                         oncomplete="if(!args.validationFailed) {PF('insertProductDlg').hide(); PF('productTableWidget').filter();}"
+                                         styleClass="p-button-success"/>
+
+                        <p:commandButton value="#{msg.cancel_button}"
+                                         onclick="PF('insertProductDlg').hide();"
+                                         action="#{clientManagerBean.clearSelectedImage}"
+                                         immediate="true"
+                                         styleClass="p-button-secondary"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="#{msg.edit_product_dialog}"
+                      widgetVar="editProductDlg"
+                      modal="true"
+                      closable="true"
+                      resizable="false"
+                      styleClass="dialog-lg"
+                      width="500">
+
+                <h:form id="editProductForm">
+                    <div class="p-fluid">
+                        <div class="p-field">
+                            <p:outputLabel for="editProductId" value="#{msg.id_header}" />
+                            <p:inputText id="editProductId" 
+                                         value="#{clientManagerBean.selectedProduct.id}"
+                                         disabled="true"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editProductName" value="#{msg.name_label}: " />
+                            <p:inputText id="editProductName" 
+                                         value="#{clientManagerBean.selectedProduct.name}"
+                                         required="true"
+                                         requiredMessage="#{msg.name_required}"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editProductPrice" value="#{msg.price_label}: " />
+                            <p:inputNumber id="editProductPrice" 
+                                           value="#{clientManagerBean.selectedProduct.price}"
+                                           required="true"
+                                           requiredMessage="#{msg.price_required}"
+                                           decimalPlaces="2"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editProductStock" value="#{msg.stock_label}: " />
+                            <p:inputNumber id="editProductStock"
+                                           value="#{clientManagerBean.product.stock}"
+                                           minValue="0"
+                                           decimalPlaces="0"
+                                           inputStyle="width:100%" />
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editProductCategory" value="#{msg.category_label}" />
+                            <p:inputText id="editProductCategory" 
+                                         value="#{clientManagerBean.selectedProduct.category}"
+                                         style="width: 100%"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editProductColor" value="#{msg.color_label}" />
+                            <p:inputText id="editProductColor" 
+                                         value="#{clientManagerBean.selectedProduct.color}"
+                                         style="width: 100%"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editProductSize" value="#{msg.size_label} (...S,M,L...)" />
+                            <p:inputText id="editProductSize" 
+                                         value="#{clientManagerBean.selectedProduct.size}"
+                                         style="width: 100%"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editProductRating" value="#{msg.rating_label} (0-5)" />
+                            <p:inputNumber id="editProductRating" 
+                                           value="#{clientManagerBean.selectedFormRating}"
+                                           decimalPlaces="1"
+                                           minValue="0"
+                                           maxValue="5"
+                                           style="width: 100%"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editProductDescription" value="#{msg.description_label}" />
+                            <p:inputTextarea id="editProductDescription" 
+                                             value="#{clientManagerBean.selectedProduct.description}"
+                                             rows="3"
+                                             style="width: 100%"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="editProductUrl" value="#{msg.image_url_label}" />
+                            <p:inputText id="editProductUrl" 
+                                         value="#{clientManagerBean.selectedProduct.url}"
+                                         style="width: 100%"/>
+                        </div>
+                    </div>
+
+                    <div class="dialog-footer-buttons">
+                        <p:commandButton value="#{msg.update_button}"
+                                         action="#{clientManagerBean.editarProducto}"
+                                         process="@this editProductForm"
+                                         update=":formAdminMain:messages :formAdminMain:productTable"
+                                         oncomplete="if(!args.validationFailed) {PF('editProductDlg').hide(); PF('productTableWidget').filter();}"
+                                         styleClass="p-button-success"/>
+
+                        <p:commandButton value="#{msg.cancel_button}"
+                                         onclick="PF('editProductDlg').hide();"
+                                         immediate="true"
+                                         styleClass="p-button-secondary"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="#{msg.delete_product_dialog}"
+                      widgetVar="deleteProductDlg"
+                      modal="true"
+                      closable="true"
+                      resizable="false">
+
+                <h:form id="deleteProductForm">
+                    <p>#{msg.delete_confirmation_product}</p>
+
+                    <div class="p-fluid">
+                        <div class="p-field">
+                            <p:outputLabel for="deleteProductName" value="#{msg.product_label}" />
+                            <p:inputText id="deleteProductName" 
+                                         value="#{clientManagerBean.selectedProduct.name}"
+                                         disabled="true"/>
+                        </div>
+
+                        <div class="p-field">
+                            <p:outputLabel for="deleteProductId" value="#{msg.id_header}" />
+                            <p:inputText id="deleteProductId" 
+                                         value="#{clientManagerBean.selectedProduct.id}"
+                                         disabled="true"/>
+                        </div>
+                    </div>
+
+                    <div class="dialog-footer-buttons">
+                        <p:commandButton value="#{msg.delete_button}"
+                                         action="#{clientManagerBean.borrarProducto}"
+                                         process="@this"
+                                         update=":formAdminMain:messages :formAdminMain:productTable"
+                                         oncomplete="PF('deleteProductDlg').hide(); PF('productTableWidget').filter();"
+                                         styleClass="p-button-danger"/>
+
+                        <p:commandButton value="#{msg.cancel_button}"
+                                         onclick="PF('deleteProductDlg').hide();"
+                                         immediate="true"
+                                         styleClass="p-button-secondary"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+        </div>
+    </ui:define>
+</ui:composition>

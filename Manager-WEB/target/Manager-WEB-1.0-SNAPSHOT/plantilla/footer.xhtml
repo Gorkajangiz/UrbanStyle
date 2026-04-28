@@ -1,0 +1,67 @@
+<ui:composition 
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="footerForm">
+        <footer class="clean-footer">
+            <div class="footer-main">
+                <div class="footer-grid">
+                    <div class="footer-column">
+                        <div class="footer-brand">
+                            <div class="footer-logo">
+                                <i class="pi pi-box"></i>
+                                <span class="logo-name">#{msg.urban_style_title}</span>
+                            </div>
+                            <p class="footer-description">
+                                #{msg.footer_description}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4 class="footer-title">#{msg.contact_title}</h4>
+                        <div class="footer-contact">
+                            <div class="contact-item">
+                                <i class="pi pi-envelope"></i>
+                                <span>#{msg.contact_email}</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="pi pi-phone"></i>
+                                <span>#{msg.contact_phone}</span>
+                            </div>
+                            <div class="social-links">
+                                <a href="#" class="social-icon" title="Instagram">
+                                    <i class="pi pi-instagram"></i>
+                                </a>
+                                <a href="#" class="social-icon" title="Twitter">
+                                    <i class="pi pi-twitter"></i>
+                                </a>
+                                <a href="#" class="social-icon" title="Facebook">
+                                    <i class="pi pi-facebook"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="copyright">
+                        #{msg.copyright_text}
+                    </p>
+                    <div class="footer-legal">
+                        <a href="#" class="legal-link">#{msg.privacy_link}</a>
+                        <span class="separator">·</span>
+                        <a href="#" class="legal-link">#{msg.terms_link}</a>
+                        <span class="separator">·</span>
+                        <a href="#" class="legal-link">#{msg.cookies_link}</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </h:form>
+
+</ui:composition>

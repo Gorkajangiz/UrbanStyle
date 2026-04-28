@@ -1,0 +1,14 @@
+dao\ProductDao.class
+EJBs\TiendaEJB.class
+EJBs\ClientEJB$Register.class
+EJBs\ClientEJB$Login.class
+EJBs\ClientEJB.class
+EJBs\TiendaEJBLocal.class
+dao\DaoInterfazProduct.class
+EJBs\AutorizacionService.class
+EJBs\CartEJB.class
+EJBs\CartEJBLocal.class
+EJBs\ClientEJBLocal.class
+dao\Dao.class
+dao\DaoInterfazClient.class
+dao\ClientDao.class

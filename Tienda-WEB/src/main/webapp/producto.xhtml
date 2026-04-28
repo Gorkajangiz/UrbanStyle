@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/plantilla/plantilla.xhtml">
+
+    <ui:define name="head">
+        <h:outputStylesheet name="css/producto.css"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="productForm">
+            <div class="product-page-container">
+                <div class="product-detail-grid">
+                    <div class="product-gallery-column">
+                        <div class="product-gallery">
+                            <div class="main-image-container">
+                                <p:graphicImage 
+                                    library="images" 
+                                    name="#{tiendaBean.selectedImage}"
+                                    styleClass="main-image"
+                                    rendered="#{not empty tiendaBean.selectedImage}"/>
+                                <p:graphicImage 
+                                    library="images" 
+                                    name="placeholder.jpg"
+                                    styleClass="main-image"
+                                    rendered="#{empty tiendaBean.selectedImage}"/>
+                            </div>
+
+                            <div class="thumbnail-gallery">
+                                <ui:repeat value="#{tiendaBean.getProductImages(tiendaBean.selectedItem.url)}" var="image" varStatus="status">
+                                    <p:commandButton 
+                                        styleClass="thumbnail-btn #{tiendaBean.selectedImage eq image ? 'active' : ''}"
+                                        action="#{tiendaBean.setSelectedImage(image)}"
+                                        update="productForm"
+                                        process="@this"
+                                        icon="pi pi-image"
+                                        style="background-image: url(#{resource['images:' += image]}); background-size: cover; background-position: center;">
+                                    </p:commandButton>
+                                </ui:repeat>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-info-column">
+                        <div class="product-header">
+                            <span class="product-category">#{tiendaBean.selectedItem.category}</span>
+                            <span class="stock-badge #{tiendaBean.availability(tiendaBean.selectedItem) eq '#{msg.available}' ? 'stock-available' : 
+                                                       (tiendaBean.availability(tiendaBean.selectedItem) eq '#{msg.last_units}' ? 'stock-low' : 'stock-out')}">
+                                  #{tiendaBean.availability(tiendaBean.selectedItem)}
+                            </span>
+                        </div>
+
+                        <h1 class="product-title">#{tiendaBean.selectedItem.name}</h1>
+
+                        <div class="product-meta">
+                            <div class="rating-container">
+                                <p:rating readonly="true" 
+                                          value="#{tiendaBean.selectedItem.rating}"
+                                          styleClass="product-rating"/>
+                                <span class="rating-text">(#{tiendaBean.selectedItem.rating}/5)</span>
+                            </div>
+                            <span class="stock-text">#{msg.stock_label}: #{tiendaBean.selectedItem.stock} #{msg.units_label}</span>
+                        </div>
+
+                        <div class="product-price-large">
+                            <h:outputText
+                                value="#{tiendaBean.selectedItem.price}"
+                                rendered="#{not tiendaBean.logeado}"
+                                style="font-size: 2rem; font-weight: bold; color: black;">
+                                <f:convertNumber type="currency" currencySymbol="€"/>
+                            </h:outputText>
+                            <h:outputText
+                                value="#{tiendaBean.selectedItem.price}"
+                                rendered="#{tiendaBean.logeado}"
+                                style="font-size: 2rem; font-weight: bold; color: #000;">
+                                <f:convertNumber type="currency" currencySymbol="€"/>
+                            </h:outputText>
+                            <h:outputText
+                                value="#{tiendaBean.getPriceOriginal(tiendaBean.selectedItem)}"
+                                rendered="#{tiendaBean.logeado and tiendaBean.showDiscountCart() > 0}"
+                                style="color: #e74c3c; text-decoration: line-through; font-size: 1.2rem; margin-left: 10px;">
+                                <f:convertNumber type="currency" currencySymbol="€"/>
+                            </h:outputText>
+                            <h:outputText
+                                value="(-#{tiendaBean.showDiscountCart()}%)"
+                                rendered="#{tiendaBean.logeado and tiendaBean.showDiscountCart() > 0}"
+                                style="font-size: 0.9rem; color: #555; margin-left: 5px;" />
+
+                        </div>
+                        <p class="product-description">
+                            #{tiendaBean.selectedItem.description}
+                        </p>
+
+                        <div class="selector-container">
+                            <span class="selector-label">#{msg.color_label}:</span>
+                            <div class="color-options">
+                                <div class="color-option active" 
+                                     style="background-color: #{tiendaBean.selectedItem.color};"
+                                     title="#{tiendaBean.selectedItem.color}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="selector-container">
+                            <span class="selector-label">#{msg.size_label}:</span>
+                            <p:selectOneMenu id="sizeSelect" 
+                                             value="#{tiendaBean.selectedSize}" 
+                                             styleClass="size-selector">
+                                <f:selectItems value="#{tiendaBean.availableSizes}" 
+                                               var="size"
+                                               itemLabel="#{size}"
+                                               itemValue="#{size}"/>
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="selector-container">
+                            <span class="selector-label">#{msg.quantity_label}:</span>
+                            <div class="quantity-container">
+                                <p:inputNumber id="quantityInput" 
+                                               value="#{tiendaBean.cantidad}"
+                                               minValue="1" 
+                                               maxValue="#{tiendaBean.selectedItem.stock}"
+                                               styleClass="quantity-input"/>
+                                <span class="stock-info">#{msg.max_label}: #{tiendaBean.selectedItem.stock}</span>
+                            </div>
+                        </div>
+
+                        <p:commandButton value="#{msg.add_to_cart_button}"
+                                         action="#{tiendaBean.addCart(tiendaBean.selectedItem)}"
+                                         process="@form"
+                                         update="@form"
+                                         styleClass="add-to-cart-btn"
+                                         disabled="#{tiendaBean.availability(tiendaBean.selectedItem) eq '#{msg.not_available}' or tiendaBean.selectedItem.stock == 0}">
+                            <f:param name="size" value="#{tiendaBean.selectedSize}"/>
+                        </p:commandButton>
+
+                        <div class="additional-info">
+                            <div class="info-item">
+                                <i class="pi pi-truck info-icon"></i>
+                                <span>#{msg.free_shipping_info}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-undo info-icon"></i>
+                                <span>#{msg.free_returns_info}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-shield info-icon"></i>
+                                <span>#{msg.secure_payment_info}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="related-products-section">
+                    <h2 class="section-title">#{msg.related_products_title}</h2>
+                    <div class="related-products-grid">
+                        <ui:repeat value="#{tiendaBean.products}"
+                                   var="relatedProduct"
+                                   begin="0"
+                                   end="3">
+
+                            <div class="youth-product-card">
+                                <div class="youth-product-badge #{tiendaBean.availability(relatedProduct) eq '#{msg.available}' ? 'youth-available' 
+                                                                  : tiendaBean.availability(relatedProduct) eq '#{msg.last_units}' ? 'youth-last-units' 
+                                                                  : 'youth-unavailable'}">
+                                     #{tiendaBean.availability(relatedProduct)}
+                                </div>
+
+                                <div class="youth-product-image">
+                                    <p:graphicImage library="images" name="#{tiendaBean.getFoto(relatedProduct.url)}" styleClass="youth-responsive-img"/>
+                                </div>
+
+                                <div class="youth-product-info">
+                                    <h3 class="youth-product-name">#{relatedProduct.name}</h3>
+                                    <p class="youth-product-desc">#{relatedProduct.description}</p>
+                                    <div class="youth-product-extra">
+                                        <span class="youth-product-category">#{relatedProduct.category}</span>
+                                    </div>
+                                    <div class="youth-product-meta">
+                                        <p:rating value="#{relatedProduct.rating}" readonly="true" styleClass="youth-product-rating" />
+                                        <span class="youth-product-price">
+                                            <h:outputText value="#{relatedProduct.price}">
+                                                <f:convertNumber type="currency" currencySymbol="€"/>
+                                            </h:outputText>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <p:commandLink class="youth-product-click"
+                                               action="#{tiendaBean.openProductDlg(relatedProduct)}"
+                                               process="@this"
+                                               ajax="false"/>
+                            </div>
+
+                        </ui:repeat>
+
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

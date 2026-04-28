@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Created-By: Maven EJB Plugin 3.2.1
+Build-Jdk-Spec: 21
+Class-Path: lib/com.mycompany-Tienda-Modelo-1.0-SNAPSHOT.jar lib/org.ecl
+ ipse.persistence-org.eclipse.persistence.asm-9.4.0.jar lib/jakarta.ws.r
+ s-jakarta.ws.rs-api-3.1.0.jar
+

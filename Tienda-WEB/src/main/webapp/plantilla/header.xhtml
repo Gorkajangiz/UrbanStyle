@@ -1,0 +1,120 @@
+<ui:composition 
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="headerForm">
+        <header class="youth-header">
+            <div class="header-container">
+
+                <div class="header-logo">
+                    <p:commandButton 
+                        icon="pi pi-box"
+                        styleClass="logo-btn"
+                        action="#{tiendaBean.goHome()}"
+                        immediate="true"
+                        ajax="false"
+                        title="#{msg.home_title}"/>
+                    <span class="logo-text">#{msg.urban_style_title}</span>
+                </div>
+
+                <nav class="header-nav">
+                    <div class="dropdown">
+                        <button class="dropdown-trigger nav-link">
+                            #{msg.collections_header} <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <p:commandButton 
+                                value="#{msg.minimal_button}"
+                                styleClass="dropdown-item"
+                                action="#{tiendaBean.goLists('Minimal')}"
+                                immediate="true"
+                                ajax="false"/>
+                            <p:commandButton 
+                                value="#{msg.urban_button}"
+                                styleClass="dropdown-item"
+                                action="#{tiendaBean.goLists('Urban')}"
+                                immediate="true"
+                                ajax="false"/>
+                            <p:commandButton 
+                                value="#{msg.street_button}"
+                                styleClass="dropdown-item"
+                                action="#{tiendaBean.goLists('Street')}"
+                                immediate="true"
+                                ajax="false"/>
+                        </div>
+                    </div>
+
+                    <p:commandButton 
+                        value="#{msg.caps_header}"
+                        styleClass="nav-link"
+                        action="#{tiendaBean.goLists('Gorras')}"
+                        immediate="true"
+                        ajax="false"/>
+
+                    <p:commandButton 
+                        value="#{msg.t_shirts_header}"
+                        styleClass="nav-link"
+                        action="#{tiendaBean.goLists('Camisetas')}"
+                        immediate="true"
+                        ajax="false"/>
+
+                    <p:commandButton 
+                        value="#{msg.pants_header}"
+                        styleClass="nav-link"
+                        action="#{tiendaBean.goLists('Pantalones')}"
+                        immediate="true"
+                        ajax="false"/>
+
+                    <p:commandButton 
+                        value="#{msg.hoodies_header}"
+                        styleClass="nav-link"
+                        action="#{tiendaBean.goLists('Sudaderas')}"
+                        immediate="true"
+                        ajax="false"/>
+                </nav>
+
+                <div class="header-actions">
+
+                    <ui:fragment rendered="#{tiendaBean.loggedin}">
+                        <span class="user-name user-name-left">
+                            #{tiendaBean.client.name}
+                        </span>
+                    </ui:fragment>
+
+                    <div class="header-actions">
+
+                        <ui:fragment rendered="#{tiendaBean.loggedin}">
+                            <p:commandButton 
+                                icon="pi pi-sign-out"
+                                styleClass="action-btn logout-btn"
+                                action="#{tiendaBean.goLogout()}"
+                                immediate="true"
+                                ajax="false"
+                                title="#{msg.logout_title}"/>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{!tiendaBean.loggedin}">
+                            <p:commandButton 
+                                icon="pi pi-user"
+                                styleClass="action-btn user-btn"
+                                action="#{tiendaBean.goLogin()}"
+                                immediate="true"
+                                ajax="false"
+                                title="#{msg.login_title}"/>
+                        </ui:fragment>
+
+                        <p:commandButton 
+                            icon="pi pi-shopping-cart"
+                            styleClass="action-btn cart-btn"
+                            action="#{tiendaBean.goCart()}"
+                            immediate="true"
+                            ajax="false"
+                            title="#{msg.cart_title}"/>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </h:form>
+</ui:composition>

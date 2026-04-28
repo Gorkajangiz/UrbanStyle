@@ -1,0 +1,36 @@
+<ui:composition 
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <p:dialog header="Eliminar prenda"
+               modal="true"
+               resizable="false"
+               draggable="false"
+               closable="false"
+               positionType="absolute"
+               position="center"
+               visible="#{tiendaBean.removeCart}"
+               id="removeCartDlg"
+               widgetVar="removeCartDlgWV"
+               styleClass="dialogoVaciar">
+        
+        <p:outputPanel class="ui-fluid">
+            <p:outputLabel value="¿Seguro de que quieres eliminar esta prenda?"/>
+        </p:outputPanel>
+
+        <f:facet name="footer">
+            <p:commandButton value="Eliminar" icon="pi pi-trash"
+                             action="#{tiendaBean.removeCart(prToRemove)}"  
+                             oncomplete="PF('removeCartDlgWV').hide()"
+                             update=":form:dt-products"/>
+            
+            <p:commandButton value="Cancelar" icon="pi pi-times" 
+                             action="#{tiendaBean.closeRemoveCartDlg()}"
+                             oncomplete="PF('removeCartDlgWV').hide()"/>
+        </f:facet>
+        
+        <p:ajax event="close" listener="#{tiendaBean.closeRemoveCartDlg()}"/>
+    </p:dialog>
+</ui:composition>

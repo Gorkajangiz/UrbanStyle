@@ -1,0 +1,108 @@
+<ui:composition 
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantilla/plantilla.xhtml">
+    <ui:define name="head">
+        <h:outputStylesheet name="css/cart.css"/>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:card>
+                <p:dataTable id="dt-products" widgetVar="dtProducts" var="linea" 
+                             value="#{tiendaBean.productos}"
+                             reflow="true" styleClass="products-table" 
+                             rowKey="#{linea.p.id}">
+
+                    <f:facet name="header">
+                        <p:toolbar>
+                            <p:toolbarGroup align="left">
+                                <span style="font-weight: bold; padding-right: 10px">
+                                    #{msg.cart_of} #{tiendaBean.logeado ? tiendaBean.email : msg.invited}
+                                </span>
+                            </p:toolbarGroup>
+
+                            <p:toolbarGroup align="right">
+                                <p:commandButton action="#{tiendaBean.openClearCartDlg()}" 
+                                                 icon="pi pi-trash" styleClass="ui-button-danger" 
+                                                 value="#{msg.empty_cart_button}"
+                                                 update=":form"/>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+                    </f:facet>
+
+                    <p:column headerText="#{msg.image_header}">
+                        <p:graphicImage library="images" name="#{tiendaBean.getFoto(linea.p.url)}"
+                                        style="width: 30%" />
+                    </p:column>
+
+                    <p:column headerText="#{msg.name_header}" sortBy="#{linea.p.name}">
+                        <h:outputText value="#{linea.p.name}" />
+                    </p:column>
+
+                    <p:column headerText="#{msg.price_header}" sortBy="#{linea.p.price}">
+                        <h:outputText value="#{linea.p.price}" style="font-weight: 700">
+                            <f:convertNumber currencySymbol="€" type="currency" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{msg.category_header}" sortBy="#{linea.p.category}">
+                        <h:outputText value="#{linea.p.category}" />
+                    </p:column>
+
+                    <p:column headerText="#{msg.reviews_header}" sortBy="#{linea.p.rating}">
+                        <p:rating value="#{linea.p.rating}" readonly="true" />
+                    </p:column>
+
+                    <p:column headerText="#{msg.status_header}" sortBy="#{linea.p.stock}">
+                        <h:outputText styleClass="product-badge"
+                                      value="#{tiendaBean.availability(linea.p)}" />
+                    </p:column>
+
+                    <p:column headerText="#{msg.quantity_header}" sortBy="#{linea.quantity}">
+                        <h:outputText value="#{linea.quantity}" />
+                    </p:column>
+
+                    <p:column headerText="#{msg.total_header}" sortBy="#{linea.total}">
+                        <h:outputText value="#{linea.total}" style="font-weight: 700">
+                            <f:convertNumber currencySymbol="€" type="currency" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column exportable="false" ariaHeaderText="Actions">
+                        <p:commandButton class="ui-button-danger rounded-button" 
+                                         icon="pi pi-trash" 
+                                         action="#{tiendaBean.openRemoveCartDlg(linea.p)}"
+                                         update=":form"/>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:toolbar>
+                            <p:toolbarGroup align="left">
+                                <span style="font-weight: bold; padding-right: 10px">
+                                    #{msg.total_label}: #{tiendaBean.showTotalCart()}€
+                                </span>
+                                <span style="font-weight: bold; padding-right: 10px"
+                                      rendered="#{tiendaBean.logeado}">
+                                    #{tiendaBean.showDiscountCart()}% #{msg.discount_label}
+                                </span>
+                            </p:toolbarGroup>
+                            <p:toolbarGroup align="right">
+                                <p:commandButton rendered="#{not empty tiendaBean.productos}" 
+                                                 action="#{tiendaBean.buy(tiendaBean.email)}" 
+                                                 icon="pi pi-chevron-circle-right" 
+                                                 styleClass="ui-button-success" 
+                                                 value="#{msg.proceed_to_checkout_button}" 
+                                                 update=":form"/>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                    </f:facet>
+                </p:dataTable>
+            </p:card>
+            <ui:include src="dlg/clearCartDlg.xhtml"/>
+            <ui:include src="dlg/removeCartDlg.xhtml"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

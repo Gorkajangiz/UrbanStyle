@@ -1,0 +1,54 @@
+<ui:composition xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="/plantilla/plantilla.xhtml">
+    <ui:define name="head">
+        <h:outputStylesheet name="css/login.css"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="login-wrapper">
+            <h:form id="loginForm">
+                <p:card styleClass="login-panel">
+                    <h2>#{msg.login_title}</h2>
+
+                    <p:panelGrid layout="grid" columns="1" columnClasses="columna">
+                        <h:outputLabel for="email" value="#{msg.email_label}" styleClass="label-100"/>
+                        <p:inputText id="email" value="#{tiendaBean.email}" 
+                                     placeholder="#{msg.email_placeholder}" 
+                                     styleClass="input-100"
+                                     required="true"
+                                     requiredMessage="#{msg.email_required}"/>
+
+                        <h:outputLabel for="password" value="#{msg.password_label}" styleClass="label-100"/>
+                        <p:password id="password" value="#{tiendaBean.password}" 
+                                    placeholder="#{msg.password_placeholder}" 
+                                    styleClass="input-100"
+                                    required="true"
+                                    requiredMessage="#{msg.password_required}"
+                                    feedback="false"/>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="1" styleClass="error-message" rendered="#{not empty tiendaBean.mensajeError}">
+                        <p:message for="loginForm" severity="error" showDetail="true" />
+                        <h:outputText value="#{tiendaBean.mensajeError}" style="color: red; display: block; text-align: center;"/>
+                    </p:panelGrid>
+
+                    <p:panelGrid layout="grid" columns="2" columnClasses="columna, columna" styleClass="login-buttons">
+                        <p:commandButton id="login" value="#{msg.login_button}" 
+                                         action="#{tiendaBean.login()}" 
+                                         styleClass="p-button p-button-primary button-100" 
+                                         ajax="false"/>
+                        <p:commandButton value="#{msg.register_button}" 
+                                         action="#{tiendaBean.goRegister()}" 
+                                         class="p-button p-button-info button-100"
+                                         immediate="true"
+                                         ajax="false"/>
+                    </p:panelGrid>
+
+                </p:card>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

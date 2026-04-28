@@ -1,0 +1,32 @@
+<ui:composition 
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="head">
+        <h:outputStylesheet name="css/cart.css"/>
+    </ui:define>
+    <p:dialog header="Vaciar carrito"
+              visible="#{tiendaBean.clearCart}"
+              id="clearCartDlg"
+              widgetVar="clearCartDlgWV"
+              styleClass="dialogoVaciar">
+
+              <p:outputPanel class="ui-fluid">
+            <p:outputLabel value="¿Seguro de que quieres vaciar el carrito?"/>
+        </p:outputPanel>
+
+        <f:facet name="footer">
+            <p:commandButton value="Vaciar" icon="pi pi-trash"
+                             action="#{tiendaBean.emptyCart()}" 
+                             update=":form:dt-products"
+                             oncomplete="PF('clearCartDlgWV').hide()"/>
+
+            <p:commandButton value="Cancelar" icon="pi pi-times" 
+                             action="#{tiendaBean.closeClearCartDlg()}"
+                             oncomplete="PF('clearCartDlgWV').hide()"/>
+        </f:facet>
+    </p:dialog>
+
+</ui:composition>
+

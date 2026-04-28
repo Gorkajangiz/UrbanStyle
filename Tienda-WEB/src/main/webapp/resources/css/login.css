@@ -1,0 +1,144 @@
+
+body {
+    background: linear-gradient(135deg, #f5f5f5, #eaeaea);
+    font-family: var(--fuente-juvenil);
+}
+
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.login-panel {
+    width: 100%;
+    max-width: 420px;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    padding: 2.6rem 2.4rem;
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    animation: loginFade 0.5s ease-out;
+}
+
+.login-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: var(--color-accent);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.login-panel h2 {
+    text-align: center;
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: var(--color-black);
+    margin-bottom: 2rem;
+}
+
+.login-panel .ui-panelgrid {
+    border: none;
+    margin: 0;
+}
+
+.login-panel .ui-panelgrid-cell {
+    border: none;
+    padding: 0;
+}
+
+
+.label-100 {
+    display: block;
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: 600;
+    z-index: 1000;
+    color: var(--color-black);
+}
+
+
+.input-100,
+.login-panel .ui-inputtext,
+.login-panel .ui-password {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+    font-size: 0.95rem;
+    font-family: var(--fuente-juvenil);
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.login-panel .ui-inputtext:focus,
+.login-panel .ui-password:focus {
+    outline: none;
+    border-color: #000;
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
+}
+
+
+.error-message {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.ui-message-error {
+    font-size: 0.85rem;
+    color: #b00020;
+}
+
+
+.login-buttons {
+    margin-top: 2.2rem;
+}
+
+.button-100 {
+    width: 100%;
+    border-radius: 10px !important;
+    padding: 0.85rem !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    background: var(--color-black) !important;
+    color: var(--color-white) !important;
+    border: none !important;
+    transition: var(--transition) !important;
+}
+
+#login {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px;
+}
+
+.login-panel .ui-button:hover {
+    background: var(--color-gray) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
+}
+
+
+@keyframes loginFade {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@media (max-width: 480px) {
+    .login-panel {
+        padding: 2.2rem 1.8rem;
+    }
+
+    .login-panel h2 {
+        font-size: 1.8rem;
+    }
+}

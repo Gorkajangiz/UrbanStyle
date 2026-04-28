@@ -1,0 +1,57 @@
+#form .ui-button-danger {
+    background-color: var(--color-black) !important;
+    color: var(--color-white) !important;
+    border: none !important;
+    transition: var(--transition) !important;
+}
+
+#form .ui-button-danger:hover {
+    background-color: var(--color-gray) !important;
+    color: var(--color-white) !important;
+}
+
+#form .ui-button-success {
+    background-color: var(--color-black) !important;
+    color: var(--color-white) !important;
+    border: none !important;
+    transition: var(--transition) !important;
+}
+
+#form .ui-button-success:hover {
+    background-color: var(--color-gray) !important;
+    color: var(--color-white) !important;
+}
+
+#form .ui-datatable-footer {
+    padding-bottom: 7rem !important;
+}
+
+
+
+.dialogoVaciar {
+    font-family: var(--fuente-juvenil);
+    color: var(--color-black);
+}
+
+.dialogoVaciar .ui-button {
+    background-color: var(--color-black) !important;
+    color: var(--color-white) !important;
+    border: none !important;
+    font-weight: 500 !important;
+    transition: var(--transition) !important;
+}
+
+.dialogoVaciar .ui-button:hover {
+    background-color: var(--color-gray) !important;
+    color: var(--color-white) !important;
+}
+
+.dialogoVaciar .ui-dialog-footer .ui-button + .ui-button {
+    margin-left: 0.8rem;
+}
+
+.dialogoVaciar .ui-dialog-content {
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.8rem 2rem
+}

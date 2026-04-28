@@ -1,0 +1,67 @@
+<ui:composition 
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantilla/plantilla.xhtml">
+
+    <ui:define name="content">
+        <h:form id="form">
+            <h2 class="youth-section-title">
+                #{tiendaBean.selectedCategory}
+            </h2>            
+            <section class="youth-products-section">
+                <p class="youth-section-subtitle">#{msg.what_everyone_wants_subtitle}</p>
+
+                <div class="youth-products-grid">
+                    <ui:repeat value="#{tiendaBean.products}" var="product">
+                        <div class="youth-product-card">
+                            <div class="youth-product-badge #{tiendaBean.availability(product) eq msg.available ? 'youth-available' 
+                                                              : tiendaBean.availability(product) eq msg.last_units ? 'youth-last-units' 
+                                                              : 'youth-unavailable'}">
+                                 #{tiendaBean.availability(product)}
+                            </div>
+
+                            <div class="youth-product-image">
+                                <p:graphicImage
+                                    library="images"
+                                    name="#{tiendaBean.getFoto(product.url)}"
+                                    styleClass="youth-responsive-img"/>
+                            </div>
+
+                            <div class="youth-product-info">
+                                <h3 class="youth-product-name">#{product.name}</h3>
+
+                                <p class="youth-product-desc">
+                                    #{product.description}
+                                </p>
+
+                                <div class="youth-product-extra">
+                                    <span class="youth-product-category">
+                                        #{product.category}
+                                    </span>
+                                </div>
+
+                                <div class="youth-product-meta">
+                                    <p:rating value="#{product.rating}"
+                                              readonly="true"
+                                              styleClass="youth-product-rating" />
+
+                                    <span class="youth-product-price">
+                                        <h:outputText value="#{product.price}">
+                                            <f:convertNumber type="currency" currencySymbol="€"/>
+                                        </h:outputText>
+                                    </span>
+                                </div>
+                            </div>
+                            <p:commandLink action="#{tiendaBean.openProductDlg(product)}"
+                                           process="@this"
+                                           update=":form"
+                                           styleClass="youth-product-click" />
+                        </div>
+                    </ui:repeat>
+                </div>
+            </section>
+        </h:form>
+    </ui:define>
+</ui:composition>
